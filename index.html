@@ -3,47 +3,196 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Taal-MVP – Klik op een woord</title>
+  <title>Interactieve taalondersteuning</title>
+
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; line-height: 1.55; }
-    .card { max-width: 820px; margin: 0 auto; border: 1px solid #ddd; border-radius: 14px; padding: 18px; }
-    h1 { font-size: 20px; margin: 0 0 10px; }
-    .hint { color: #555; margin: 0 0 14px; }
-    .text { font-size: 18px; }
-    .w { cursor: pointer; border-bottom: 2px dotted #999; padding: 0 1px; }
-    .w:hover { background: #f3f3f3; }
-    dialog { border: none; border-radius: 14px; padding: 0; width: min(520px, 92vw); }
-    .dlg { padding: 16px 16px 12px; border: 1px solid #ddd; border-radius: 14px; }
-    .row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-    .word { font-size: 18px; font-weight: 700; }
-    .lang { font-size: 12px; color: #666; }
-    .def { margin: 10px 0 0; font-size: 16px; }
-    .actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px; }
-    button { border: 1px solid #ccc; background: white; border-radius: 10px; padding: 8px 12px; font-size: 14px; }
-    .primary { border-color: #111; }
-    .footer { max-width: 820px; margin: 10px auto 0; color:#666; font-size: 12px; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 24px;
+      line-height: 1.6;
+      background: #f6f7f9;
+    }
+
+    .card {
+      max-width: 820px;
+      margin: 0 auto;
+      border: 1px solid #e3e3e3;
+      border-radius: 18px;
+      padding: 18px;
+      background: white;
+      box-shadow: 0 8px 24px rgba(0,0,0,.06);
+    }
+
+    h1 {
+      font-size: 22px;
+      margin: 0 0 6px;
+    }
+
+    .sub {
+      margin: 0 0 14px;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .hint {
+      color: #444;
+      margin: 0 0 14px;
+      font-size: 15px;
+      background: #f2f3f5;
+      border: 1px solid #e5e5e5;
+      padding: 10px 12px;
+      border-radius: 14px;
+    }
+
+    .text {
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    /* Taalblokken */
+    .lang-block{
+      background: #fafafa;
+      border: 1px solid #e0e0e0;
+      border-radius: 16px;
+      padding: 18px 16px;
+      margin: 16px 0;
+    }
+
+    /* Taal labels */
+    .lang-label{
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+      letter-spacing: .2px;
+    }
+
+    .lang-label.en{
+      background: #e8f0ff;
+      color: #2b4ddb;
+      border: 1px solid #d6e2ff;
+    }
+
+    .lang-label.fr{
+      background: #f1eaff;
+      color: #6a3bd1;
+      border: 1px solid #e3d6ff;
+    }
+
+    /* Klikwoorden */
+    .w{
+      cursor: pointer;
+      border-bottom: 2px dotted #666;
+      padding: 0 3px;
+      border-radius: 4px;
+      transition: background 0.15s ease;
+    }
+
+    .w:hover{
+      background: #fff2b3;
+    }
+
+    /* Popup */
+    dialog {
+      border: none;
+      border-radius: 16px;
+      padding: 0;
+      width: min(520px, 92vw);
+      box-shadow: 0 18px 50px rgba(0,0,0,.22);
+    }
+
+    .dlg {
+      padding: 16px 16px 12px;
+      border: 1px solid #ddd;
+      border-radius: 16px;
+      background: white;
+    }
+
+    .row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .word {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .lang {
+      font-size: 12px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    .def {
+      margin: 10px 0 0;
+      font-size: 16px;
+      color: #222;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    button {
+      border: 1px solid #cfcfcf;
+      background: white;
+      border-radius: 12px;
+      padding: 8px 14px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .primary {
+      border-color: #111;
+    }
+
+    .footer {
+      max-width: 820px;
+      margin: 10px auto 0;
+      color: #666;
+      font-size: 12px;
+    }
   </style>
 </head>
+
 <body>
   <div class="card">
-    <h1>Interactieve taalondersteuning (MVP)</h1>
-    <p class="hint">Klik op een onderstreept woord om een korte uitleg/vertaling te zien.</p>
+    <h1>Interactieve taalondersteuning</h1>
+    <p class="sub">MVP: klik op een woord → korte uitleg in het Nederlands.</p>
+
+    <p class="hint">
+      Klik op een onderstreept woord om een korte uitleg/vertaling te zien.
+      De tekst blijft verder ongewijzigd.
+    </p>
 
     <div class="text" id="text">
-      <!-- Voorbeeldtekst (ENG) -->
-      In healthcare, <span class="w" data-word="hygiene">hygiene</span> is essential to prevent infections.
-      Professionals must be aware of <span class="w" data-word="cross-contamination">cross-contamination</span>
-      when moving between patients and surfaces.
-      Following <span class="w" data-word="protocols">protocols</span> helps reduce risks and improve safety.
-      <br><br>
-<strong>FR (demo)</strong><br>
-Dans le domaine des soins de santé, 
-<span class="w" data-word="hygiene_fr">l’hygiène</span> est essentielle pour prévenir les infections.
-Les professionnels doivent être attentifs à la 
-<span class="w" data-word="contamination_fr">contamination croisée</span>
-lorsqu’ils passent d’un patient à une surface.
-Le respect des <span class="w" data-word="protocoles_fr">protocoles</span>
-contribue à réduire les risques et à améliorer la sécurité.
+
+      <div class="lang-block">
+        <div class="lang-label en">Engels</div>
+        In healthcare, <span class="w" data-word="hygiene">hygiene</span> is essential to prevent infections.
+        Professionals must be aware of <span class="w" data-word="cross-contamination">cross-contamination</span>
+        when moving between patients and surfaces.
+        Following <span class="w" data-word="protocols">protocols</span> helps reduce risks and improve safety.
+      </div>
+
+      <div class="lang-block">
+        <div class="lang-label fr">Frans</div>
+        Dans le domaine des soins de santé,
+        <span class="w" data-word="hygiene_fr">l’hygiène</span> est essentielle pour prévenir les infections.
+        Les professionnels doivent être attentifs à la
+        <span class="w" data-word="contamination_fr">contamination croisée</span>
+        lorsqu’ils passent d’un patient à une surface.
+        Le respect des <span class="w" data-word="protocoles_fr">protocoles</span>
+        contribue à réduire les risques et à améliorer la sécurité.
+      </div>
 
     </div>
   </div>
@@ -70,22 +219,33 @@ contribue à réduire les risques et à améliorer la sécurité.
   <script>
     // Mini-woordenboek (pas aan naar jouw demo)
     const dictionary = {
-      "hygiene": { lang: "EN → NL", def: "Hygiëne: maatregelen om infecties te voorkomen." },
-      "cross-contamination": { lang: "EN → NL", def: "Kruisbesmetting: overdracht van bacteriën/virussen van de ene naar de andere persoon of plek." },
-      "protocols": { lang: "EN → NL", def: "Protocollen: afgesproken werkwijzen en regels." },
-"hygiene_fr": {
-  lang: "FR → NL",
-  def: "Hygiëne: maatregelen om infecties te voorkomen."
-},
-"contamination_fr": {
-  lang: "FR → NL",
-  def: "Kruisbesmetting: overdracht van bacteriën of virussen van de ene persoon of plek naar de andere."
-},
-"protocoles_fr": {
-  lang: "FR → NL",
-  def: "Protocollen: afgesproken werkwijzen en regels binnen de zorg."
-}
+      // Engels
+      "hygiene": {
+        lang: "EN → NL",
+        def: "Hygiëne: maatregelen om infecties te voorkomen."
+      },
+      "cross-contamination": {
+        lang: "EN → NL",
+        def: "Kruisbesmetting: overdracht van bacteriën/virussen van de ene persoon naar de andere (of via oppervlakken)."
+      },
+      "protocols": {
+        lang: "EN → NL",
+        def: "Protocollen: afgesproken werkwijzen en regels."
+      },
 
+      // Frans
+      "hygiene_fr": {
+        lang: "FR → NL",
+        def: "Hygiëne: maatregelen om infecties te voorkomen."
+      },
+      "contamination_fr": {
+        lang: "FR → NL",
+        def: "Kruisbesmetting: overdracht van bacteriën of virussen van de ene persoon of plek naar de andere."
+      },
+      "protocoles_fr": {
+        lang: "FR → NL",
+        def: "Protocollen: afgesproken werkwijzen en regels binnen de zorg."
+      }
     };
 
     const dlg = document.getElementById("dlg");
@@ -97,20 +257,26 @@ contribue à réduire les risques et à améliorer la sécurité.
     document.getElementById("text").addEventListener("click", (e) => {
       const el = e.target.closest(".w");
       if (!el) return;
+
       const key = el.dataset.word;
       const entry = dictionary[key];
+
       dlgWord.textContent = el.textContent;
       dlgLang.textContent = entry?.lang ?? "—";
       dlgDef.textContent = entry?.def ?? "Geen uitleg beschikbaar voor dit woord.";
+
       dlg.showModal();
     });
 
     closeBtn.addEventListener("click", () => dlg.close());
+
     dlg.addEventListener("click", (e) => {
       // klik buiten de box sluit
       const rect = dlg.getBoundingClientRect();
-      const inDialog = rect.top <= e.clientY && e.clientY <= rect.bottom &&
-                       rect.left <= e.clientX && e.clientX <= rect.right;
+      const inDialog =
+        rect.top <= e.clientY && e.clientY <= rect.bottom &&
+        rect.left <= e.clientX && e.clientX <= rect.right;
+
       if (!inDialog) dlg.close();
     });
   </script>
