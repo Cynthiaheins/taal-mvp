@@ -12,8 +12,6 @@
       --text:#121212;
       --muted:#6b7280;
       --line:#e5e7eb;
-      --primary:#2563eb;
-      --pill:#eef2ff;
       --tap:#fff2b3;
     }
 
@@ -75,7 +73,7 @@
     .wrap{
       max-width: 920px;
       margin: 0 auto;
-      padding: 18px 16px 32px;
+      padding: 18px 16px 26px;
       display:grid;
       grid-template-columns: 1fr;
       gap: 14px;
@@ -142,30 +140,29 @@
       line-height: 1.65;
     }
 
-    /* Clickable word */
+    /* Clickable word: NO underlines, only highlight on hover/tap */
     .w{
       cursor:pointer;
-      border-bottom: 2px dotted #777;
+      border-bottom:none;
       padding: 0 2px;
       border-radius: 4px;
       transition: background .12s ease;
     }
     .w:hover{ background: var(--tap); }
 
-    .media{
+    /* Media image */
+    .media-img{
+      width: calc(100% - 28px);
       margin: 8px 14px 12px;
-      border:1px solid var(--line);
+      border: 1px solid var(--line);
       border-radius: 14px;
-      height: 180px;
-      background:
-        radial-gradient(circle at 20% 20%, #e0f2fe 0, transparent 55%),
-        radial-gradient(circle at 80% 30%, #fde68a 0, transparent 55%),
-        radial-gradient(circle at 40% 85%, #fbcfe8 0, transparent 55%),
-        #f8fafc;
-      display:flex;
-      align-items:flex-end;
-      padding: 12px;
-      color: #111;
+      display:block;
+      height: 240px;
+      object-fit: cover;
+      background: #f8fafc;
+    }
+    .media-cap{
+      margin: -2px 14px 10px;
       font-size: 12px;
       color: var(--muted);
     }
@@ -198,12 +195,6 @@
       background:#fff;
       padding: 14px 14px 12px;
       box-shadow: 0 14px 40px rgba(0,0,0,.18);
-    }
-    .dlg-top{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
     }
     .dlg-word{
       font-size: 18px;
@@ -242,7 +233,7 @@
     .footer{
       max-width: 920px;
       margin: 0 auto;
-      padding: 0 16px 24px;
+      padding: 0 16px 22px;
       color: var(--muted);
       font-size: 12px;
       text-align:center;
@@ -255,13 +246,14 @@
     <div class="topbar-inner">
       <div class="brand">
         <h1>Social Feed – Taalondersteuning (MVP)</h1>
-        <p>Klik op elk woord in een post voor een korte NL-uitleg/vertaling.</p>
+        <p>Klik op een woord in een post voor een korte NL-uitleg/vertaling.</p>
       </div>
       <div class="pill">⚡ MVP: woordniveau, geen zinsvertaling</div>
     </div>
   </div>
 
   <main class="wrap" id="feed">
+
     <!-- Post 1 (NL) -->
     <article class="card">
       <div class="card-header">
@@ -272,11 +264,17 @@
         </div>
         <div class="more">···</div>
       </div>
+
       <div class="post clickable" data-lang="NL">
         Belangrijk aandachtspunt voor stagiaires: veel patiënten op de ouderenzorgafdeling hebben last van een delirium.
         Let op plotselinge verwardheid en sterke gedragsverandering.
       </div>
-      <div class="media">Afbeelding/visual (placeholder)</div>
+
+      <img class="media-img"
+           src="https://images.unsplash.com/photo-1580281657527-47f249e8f3d5?auto=format&fit=crop&w=1400&q=80"
+           alt="Zorgpraktijk" />
+      <div class="media-cap">Voorbeeldbeeld (placeholder) – kan vervangen worden door eigen afbeelding.</div>
+
       <div class="actions">
         <span>♡ 28</span><span>💬 12</span><span>↗ 2</span>
       </div>
@@ -292,10 +290,12 @@
         </div>
         <div class="more">···</div>
       </div>
+
       <div class="post clickable" data-lang="EN">
         During clinical practice, hygiene is crucial to prevent infections.
         Always follow protocols to reduce the risk of cross-contamination.
       </div>
+
       <div class="actions">
         <span>♡ 41</span><span>💬 7</span><span>↗ 4</span>
       </div>
@@ -311,43 +311,44 @@
         </div>
         <div class="more">···</div>
       </div>
+
       <div class="post clickable" data-lang="FR">
         En stage, l’hygiène est essentielle pour prévenir les infections.
         Respectez les protocoles et soyez attentifs à la contamination croisée.
       </div>
+
       <div class="actions">
         <span>♡ 19</span><span>💬 3</span><span>↗ 1</span>
       </div>
     </article>
+
   </main>
 
   <div class="footer">
-    Tip: dit is bewust een MVP. Je kunt posts/woorden aanpassen in de code.
+    Tip: elk woord is klikbaar. Staat het woord nog niet in de woordenlijst? Gebruik dan de knop “Woordenboek”.
   </div>
 
   <dialog id="dlg">
     <div class="dlg">
-      <div class="dlg-top">
-        <div>
-          <p class="dlg-word" id="dlgWord">—</p>
-          <div class="dlg-lang" id="dlgLang">—</div>
-        </div>
-      </div>
+      <p class="dlg-word" id="dlgWord">—</p>
+      <div class="dlg-lang" id="dlgLang">—</div>
       <div class="dlg-def" id="dlgDef">—</div>
       <div class="dlg-actions">
+        <button id="dictBtn">Woordenboek</button>
         <button id="closeBtn" class="primary">Oké</button>
       </div>
     </div>
   </dialog>
 
   <script>
-    // Woordenboek: sleutel = lowercase woord zonder leestekens
-    // Keep it short: 1 zin uitleg, MVP-stijl.
+    // Woordenboek: sleutel = lowercase woord (zonder leestekens)
+    // MVP-stijl: 1 korte zin.
     const dictionary = {
       // NL
       "delirium": { lang: "NL → NL", def: "Delier: toestand van plotselinge verwardheid." },
       "stagiaires": { lang: "NL → NL", def: "Stagiairs: studenten die praktijkervaring opdoen." },
       "verwardheid": { lang: "NL → NL", def: "Verwarring: moeite met helder denken of oriënteren." },
+      "gedragsverandering": { lang: "NL → NL", def: "Gedragsverandering: duidelijk ander gedrag dan normaal." },
 
       // EN → NL
       "hygiene": { lang: "EN → NL", def: "Hygiëne: maatregelen om infecties te voorkomen." },
@@ -356,12 +357,10 @@
       "infections": { lang: "EN → NL", def: "Infecties: ziekten door bacteriën, virussen of schimmels." },
 
       // FR → NL
-      "l’hygiène": { lang: "FR → NL", def: "Hygiëne: maatregelen om infecties te voorkomen." },
       "hygiène": { lang: "FR → NL", def: "Hygiëne: maatregelen om infecties te voorkomen." },
       "protocoles": { lang: "FR → NL", def: "Protocollen: afgesproken werkwijzen en regels." },
       "contamination": { lang: "FR → NL", def: "Besmetting: overdracht van ziektekiemen." },
-      "croisée": { lang: "FR → NL", def: "Kruis- (in combinatie): tussen personen/plaatsen." },
-      "contamination croisée": { lang: "FR → NL", def: "Kruisbesmetting: overdracht van ziektekiemen tussen personen/plaatsen." }
+      "croisée": { lang: "FR → NL", def: "Kruis- (in combinatie): tussen personen/plaatsen." }
     };
 
     const dlg = document.getElementById("dlg");
@@ -369,10 +368,13 @@
     const dlgLang = document.getElementById("dlgLang");
     const dlgDef = document.getElementById("dlgDef");
     const closeBtn = document.getElementById("closeBtn");
+    const dictBtn = document.getElementById("dictBtn");
 
-    // Helpers: tokenize + wrap every word
+    let lastLookup = "";
+    let lastLang = "";
+
     function normalizeKey(word){
-      // strip punctuation around words, keep hyphenated words
+      // Strip punctuation around words; keep hyphenated words.
       const cleaned = word
         .replace(/^[“”"'\(\[\{]+|[”"'\)\]\}\.,;:!?]+$/g, "")
         .trim();
@@ -384,15 +386,14 @@
       const parts = raw.split(/(\s+)/); // keep spaces
       const html = parts.map(p => {
         if (p.trim() === "") return p; // spaces
-        // keep original word as display
         const key = normalizeKey(p);
-        // Allow clicking on everything, even if not in dict (shows "geen uitleg")
+        // Every word becomes clickable
         return `<span class="w" data-key="${encodeURIComponent(key)}" data-display="${encodeURIComponent(p)}">${p}</span>`;
       }).join("");
       el.innerHTML = html;
     }
 
-    // Initialize: make all posts clickable word-by-word
+    // Make all posts clickable word-by-word
     document.querySelectorAll(".post.clickable").forEach(wrapWords);
 
     // Click handler (event delegation)
@@ -403,19 +404,30 @@
       const key = decodeURIComponent(w.dataset.key || "");
       const display = decodeURIComponent(w.dataset.display || "");
 
-      // Special case: support multiword phrase if user clicks either part (FR)
-      // Here we just show single-word lookup; you can expand later.
-      let entry = dictionary[key];
+      lastLookup = key;
+      lastLang = (w.closest(".post")?.dataset?.lang || "").toUpperCase();
 
-      // If not found, try without surrounding quotes/apostrophes variants
-      if (!entry && key.includes("’")) entry = dictionary[key.replace("’","'")];
-      if (!entry && key.includes("'")) entry = dictionary[key.replace("'","’")];
+      const entry = dictionary[key];
 
       dlgWord.textContent = display.replace(/\s+/g," ").trim();
-      dlgLang.textContent = entry?.lang ?? "—";
-      dlgDef.textContent = entry?.def ?? "Geen uitleg beschikbaar voor dit woord (MVP).";
+
+      if (entry) {
+        dlgLang.textContent = entry.lang;
+        dlgDef.textContent = entry.def;
+      } else {
+        dlgLang.textContent = `${lastLang || "—"} → NL`;
+        dlgDef.textContent = "Geen vaste uitleg beschikbaar (MVP). Open het woordenboek voor een snelle vertaling.";
+      }
 
       dlg.showModal();
+    });
+
+    // Dictionary button: always works (gives a translation route)
+    dictBtn.addEventListener("click", () => {
+      const term = encodeURIComponent(lastLookup || "");
+      // Wiktionary is universal. For Dutch, it still gives meanings/translations.
+      const url = `https://en.wiktionary.org/wiki/${term}`;
+      window.open(url, "_blank");
     });
 
     closeBtn.addEventListener("click", () => dlg.close());
