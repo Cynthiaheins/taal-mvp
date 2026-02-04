@@ -16,6 +16,7 @@
     }
 
     *{ box-sizing:border-box; }
+
     body{
       margin:0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -23,12 +24,12 @@
       color:var(--text);
     }
 
-    /* Topbar */
+    /* ===== Topbar ===== */
     .topbar{
       position: sticky;
       top: 0;
-      z-index: 5;
-      background: rgba(245,246,248,.92);
+      z-index: 10;
+      background: rgba(245,246,248,.95);
       backdrop-filter: blur(10px);
       border-bottom:1px solid var(--line);
     }
@@ -37,404 +38,320 @@
       margin:0 auto;
       padding: 14px 16px;
       display:flex;
-      gap:12px;
-      align-items:center;
       justify-content:space-between;
-    }
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
+      align-items:flex-start;
+      gap:12px;
     }
     .brand h1{
       margin:0;
-      font-size: 18px;
-      letter-spacing:-0.2px;
+      font-size:18px;
+      font-weight:700;
     }
     .brand p{
-      margin:0;
-      font-size: 12px;
+      margin:4px 0 0;
+      font-size:12px;
       color:var(--muted);
     }
     .pill{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding:6px 10px;
       border:1px solid var(--line);
-      border-radius:999px;
       background:var(--card);
-      color:var(--muted);
+      border-radius:999px;
+      padding:6px 10px;
       font-size:12px;
+      color:var(--muted);
       white-space:nowrap;
     }
 
-    /* Feed layout */
+    /* ===== Feed ===== */
     .wrap{
       max-width: 920px;
       margin: 0 auto;
-      padding: 18px 16px 26px;
+      padding: 16px;
       display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
+      gap:14px;
     }
 
     .card{
       background:var(--card);
       border:1px solid var(--line);
       border-radius:18px;
-      overflow:hidden;
       box-shadow: 0 6px 22px rgba(0,0,0,.05);
+      overflow:hidden;
     }
 
     .card-header{
       display:flex;
-      gap:12px;
       align-items:center;
-      padding: 14px 14px 10px;
+      gap:12px;
+      padding:14px 14px 10px;
     }
+
     .avatar{
-      width:40px; height:40px;
-      border-radius:999px;
-      background: linear-gradient(135deg, #dbeafe, #fce7f3);
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#dbeafe,#fce7f3);
       border:1px solid var(--line);
       display:flex;
       align-items:center;
       justify-content:center;
       font-weight:700;
-      color:#111;
-      flex: 0 0 auto;
     }
-    .meta{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      min-width:0;
-    }
+
     .meta .name{
-      font-weight:700;
       font-size:14px;
-      line-height:1.2;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      font-weight:700;
     }
     .meta .sub{
       font-size:12px;
       color:var(--muted);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
     }
+
     .more{
       margin-left:auto;
       color:var(--muted);
-      font-weight:700;
       letter-spacing:2px;
-      user-select:none;
     }
 
     .post{
       padding: 0 14px 12px;
-      font-size: 16px;
-      line-height: 1.65;
+      font-size:16px;
+      line-height:1.65;
     }
 
-    /* Clickable word: NO underlines, only highlight on hover/tap */
+    /* ===== Clickable words ===== */
     .w{
       cursor:pointer;
       border-bottom:none;
-      padding: 0 2px;
-      border-radius: 4px;
-      transition: background .12s ease;
+      padding:0 2px;
+      border-radius:4px;
     }
-    .w:hover{ background: var(--tap); }
+    .w:hover{
+      background:var(--tap);
+    }
 
-    /* Media image */
+    /* ===== Image ===== */
     .media-img{
       width: calc(100% - 28px);
       margin: 8px 14px 12px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius:14px;
+      border:1px solid var(--line);
       display:block;
-      height: 240px;
-      object-fit: cover;
-      background: #f8fafc;
-    }
-    .media-cap{
-      margin: -2px 14px 10px;
-      font-size: 12px;
-      color: var(--muted);
+      height:auto;
+      max-height:360px;
+      object-fit:contain;
+      background:#f8fafc;
     }
 
     .actions{
       border-top:1px solid var(--line);
-      padding: 10px 14px 12px;
+      padding:10px 14px 12px;
       display:flex;
-      gap: 14px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .actions span{
-      display:inline-flex;
-      gap:6px;
-      align-items:center;
-      user-select:none;
+      gap:16px;
+      font-size:13px;
+      color:var(--muted);
     }
 
-    /* Popup */
+    /* ===== Popup ===== */
     dialog{
       border:none;
-      border-radius: 16px;
       padding:0;
-      width: min(560px, 92vw);
+      border-radius:16px;
+      width:min(520px,92vw);
     }
+
     .dlg{
+      background:#fff;
       border:1px solid var(--line);
       border-radius:16px;
-      background:#fff;
-      padding: 14px 14px 12px;
-      box-shadow: 0 14px 40px rgba(0,0,0,.18);
+      padding:14px;
+      box-shadow:0 14px 40px rgba(0,0,0,.18);
     }
+
     .dlg-word{
-      font-size: 18px;
-      font-weight: 800;
+      font-size:18px;
+      font-weight:800;
       margin:0;
     }
     .dlg-lang{
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
+      font-size:12px;
+      color:var(--muted);
+      margin-top:2px;
     }
     .dlg-def{
-      margin-top: 10px;
-      font-size: 16px;
-      line-height: 1.55;
+      margin-top:10px;
+      font-size:16px;
+      line-height:1.55;
     }
     .dlg-actions{
+      margin-top:14px;
       display:flex;
       justify-content:flex-end;
-      margin-top: 12px;
       gap:10px;
     }
+
     button{
+      padding:8px 12px;
+      border-radius:10px;
       border:1px solid var(--line);
       background:#fff;
-      padding: 8px 12px;
-      border-radius: 10px;
-      font-size: 14px;
       cursor:pointer;
+      font-size:14px;
     }
     .primary{
       border-color:#111;
       font-weight:600;
     }
 
-    .footer{
-      max-width: 920px;
-      margin: 0 auto;
-      padding: 0 16px 22px;
-      color: var(--muted);
-      font-size: 12px;
-      text-align:center;
+    /* ===== Mobile polish ===== */
+    @media (max-width:640px){
+      .topbar-inner{
+        flex-direction:column;
+        gap:8px;
+      }
+      .pill{
+        font-size:11px;
+        padding:5px 9px;
+      }
+      .media-img{
+        max-height:260px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <h1>Social Feed – Taalondersteuning (MVP)</h1>
-        <p>Klik op een woord in een post voor een korte NL-uitleg/vertaling.</p>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <h1>Social Feed – Taalondersteuning (MVP)</h1>
+      <p>Klik op een woord in een post voor een korte NL-uitleg of vertaling.</p>
+    </div>
+    <div class="pill">⚡ woordniveau · geen zinsvertaling</div>
+  </div>
+</div>
+
+<main class="wrap" id="feed">
+
+  <!-- POST NL -->
+  <article class="card">
+    <div class="card-header">
+      <div class="avatar">V</div>
+      <div class="meta">
+        <div class="name">Verpleegkunde Vandaag</div>
+        <div class="sub">@verpleegkunde_vandaag · 1u · NL</div>
       </div>
-      <div class="pill">⚡ MVP: woordniveau, geen zinsvertaling</div>
+      <div class="more">···</div>
+    </div>
+
+    <div class="post clickable" data-lang="NL">
+      Belangrijk aandachtspunt voor stagiaires: veel patiënten op de ouderenzorgafdeling
+      hebben last van een delirium. Let op plotselinge verwardheid en sterke gedragsverandering.
+    </div>
+
+    <img class="media-img" src="nursing.jpeg" alt="Zorgpraktijk" />
+
+    <div class="actions">
+      <span>♡ 28</span>
+      <span>💬 12</span>
+      <span>↗ 2</span>
+    </div>
+  </article>
+
+  <!-- POST EN -->
+  <article class="card">
+    <div class="card-header">
+      <div class="avatar">N</div>
+      <div class="meta">
+        <div class="name">Nursing Notes</div>
+        <div class="sub">@nursing_notes · 3u · EN</div>
+      </div>
+      <div class="more">···</div>
+    </div>
+
+    <div class="post clickable" data-lang="EN">
+      During clinical practice, hygiene is crucial to prevent infections.
+      Always follow protocols to reduce the risk of cross-contamination.
+    </div>
+
+    <div class="actions">
+      <span>♡ 41</span>
+      <span>💬 7</span>
+      <span>↗ 4</span>
+    </div>
+  </article>
+
+</main>
+
+<!-- Popup -->
+<dialog id="dlg">
+  <div class="dlg">
+    <p class="dlg-word" id="dlgWord"></p>
+    <div class="dlg-lang" id="dlgLang"></div>
+    <div class="dlg-def" id="dlgDef"></div>
+    <div class="dlg-actions">
+      <button id="dictBtn">Woordenboek</button>
+      <button id="closeBtn" class="primary">Oké</button>
     </div>
   </div>
+</dialog>
 
-  <main class="wrap" id="feed">
+<script>
+  const dictionary = {
+    "delirium": { lang:"NL → NL", def:"Delier: toestand van plotselinge verwardheid." },
+    "verwardheid": { lang:"NL → NL", def:"Verwarring: moeite met helder denken." },
+    "hygiene": { lang:"EN → NL", def:"Hygiëne: maatregelen om infecties te voorkomen." },
+    "protocols": { lang:"EN → NL", def:"Protocollen: afgesproken werkwijzen." },
+    "cross-contamination": { lang:"EN → NL", def:"Kruisbesmetting tussen personen of oppervlakken." }
+  };
 
-    <!-- Post 1 (NL) -->
-    <article class="card">
-      <div class="card-header">
-        <div class="avatar">V</div>
-        <div class="meta">
-          <div class="name">Verpleegkunde Vandaag</div>
-          <div class="sub">@verpleegkunde_vandaag · 1u · NL</div>
-        </div>
-        <div class="more">···</div>
-      </div>
+  const dlg = document.getElementById("dlg");
+  const dlgWord = document.getElementById("dlgWord");
+  const dlgLang = document.getElementById("dlgLang");
+  const dlgDef  = document.getElementById("dlgDef");
+  const dictBtn = document.getElementById("dictBtn");
+  const closeBtn = document.getElementById("closeBtn");
 
-      <div class="post clickable" data-lang="NL">
-        Belangrijk aandachtspunt voor stagiaires: veel patiënten op de ouderenzorgafdeling hebben last van een delirium.
-        Let op plotselinge verwardheid en sterke gedragsverandering.
-      </div>
+  let lastWord = "";
 
-     <img class="media-img" src="nursing.jpeg" alt="Zorgpraktijk" />
+  function normalize(word){
+    return word.replace(/^[^\w]+|[^\w]+$/g,"").toLowerCase();
+  }
 
-      <div class="actions">
-        <span>♡ 28</span><span>💬 12</span><span>↗ 2</span>
-      </div>
-    </article>
+  document.querySelectorAll(".post.clickable").forEach(post=>{
+    const words = post.textContent.split(/(\s+)/);
+    post.innerHTML = words.map(w=>{
+      if(w.trim()==="") return w;
+      const key = normalize(w);
+      return `<span class="w" data-key="${key}" data-show="${w}">${w}</span>`;
+    }).join("");
+  });
 
-    <!-- Post 2 (EN) -->
-    <article class="card">
-      <div class="card-header">
-        <div class="avatar">N</div>
-        <div class="meta">
-          <div class="name">Nursing Notes</div>
-          <div class="sub">@nursing_notes · 3u · EN</div>
-        </div>
-        <div class="more">···</div>
-      </div>
+  document.getElementById("feed").addEventListener("click",e=>{
+    const w = e.target.closest(".w");
+    if(!w) return;
 
-      <div class="post clickable" data-lang="EN">
-        During clinical practice, hygiene is crucial to prevent infections.
-        Always follow protocols to reduce the risk of cross-contamination.
-      </div>
+    const key = w.dataset.key;
+    const show = w.dataset.show;
+    lastWord = key;
 
-      <div class="actions">
-        <span>♡ 41</span><span>💬 7</span><span>↗ 4</span>
-      </div>
-    </article>
-
-    <!-- Post 3 (FR) -->
-    <article class="card">
-      <div class="card-header">
-        <div class="avatar">S</div>
-        <div class="meta">
-          <div class="name">Soins & Sécurité</div>
-          <div class="sub">@soins_securite · 5u · FR</div>
-        </div>
-        <div class="more">···</div>
-      </div>
-
-      <div class="post clickable" data-lang="FR">
-        En stage, l’hygiène est essentielle pour prévenir les infections.
-        Respectez les protocoles et soyez attentifs à la contamination croisée.
-      </div>
-
-      <div class="actions">
-        <span>♡ 19</span><span>💬 3</span><span>↗ 1</span>
-      </div>
-    </article>
-
-  </main>
-
-  <div class="footer">
-    Tip: elk woord is klikbaar. Staat het woord nog niet in de woordenlijst? Gebruik dan de knop “Woordenboek”.
-  </div>
-
-  <dialog id="dlg">
-    <div class="dlg">
-      <p class="dlg-word" id="dlgWord">—</p>
-      <div class="dlg-lang" id="dlgLang">—</div>
-      <div class="dlg-def" id="dlgDef">—</div>
-      <div class="dlg-actions">
-        <button id="dictBtn">Woordenboek</button>
-        <button id="closeBtn" class="primary">Oké</button>
-      </div>
-    </div>
-  </dialog>
-
-  <script>
-    // Woordenboek: sleutel = lowercase woord (zonder leestekens)
-    // MVP-stijl: 1 korte zin.
-    const dictionary = {
-      // NL
-      "delirium": { lang: "NL → NL", def: "Delier: toestand van plotselinge verwardheid." },
-      "stagiaires": { lang: "NL → NL", def: "Stagiairs: studenten die praktijkervaring opdoen." },
-      "verwardheid": { lang: "NL → NL", def: "Verwarring: moeite met helder denken of oriënteren." },
-      "gedragsverandering": { lang: "NL → NL", def: "Gedragsverandering: duidelijk ander gedrag dan normaal." },
-
-      // EN → NL
-      "hygiene": { lang: "EN → NL", def: "Hygiëne: maatregelen om infecties te voorkomen." },
-      "protocols": { lang: "EN → NL", def: "Protocollen: afgesproken werkwijzen en regels." },
-      "cross-contamination": { lang: "EN → NL", def: "Kruisbesmetting: overdracht van ziektekiemen tussen personen/plaatsen." },
-      "infections": { lang: "EN → NL", def: "Infecties: ziekten door bacteriën, virussen of schimmels." },
-
-      // FR → NL
-      "hygiène": { lang: "FR → NL", def: "Hygiëne: maatregelen om infecties te voorkomen." },
-      "protocoles": { lang: "FR → NL", def: "Protocollen: afgesproken werkwijzen en regels." },
-      "contamination": { lang: "FR → NL", def: "Besmetting: overdracht van ziektekiemen." },
-      "croisée": { lang: "FR → NL", def: "Kruis- (in combinatie): tussen personen/plaatsen." }
-    };
-
-    const dlg = document.getElementById("dlg");
-    const dlgWord = document.getElementById("dlgWord");
-    const dlgLang = document.getElementById("dlgLang");
-    const dlgDef = document.getElementById("dlgDef");
-    const closeBtn = document.getElementById("closeBtn");
-    const dictBtn = document.getElementById("dictBtn");
-
-    let lastLookup = "";
-    let lastLang = "";
-
-    function normalizeKey(word){
-      // Strip punctuation around words; keep hyphenated words.
-      const cleaned = word
-        .replace(/^[“”"'\(\[\{]+|[”"'\)\]\}\.,;:!?]+$/g, "")
-        .trim();
-      return cleaned.toLowerCase();
+    dlgWord.textContent = show;
+    if(dictionary[key]){
+      dlgLang.textContent = dictionary[key].lang;
+      dlgDef.textContent  = dictionary[key].def;
+    } else {
+      dlgLang.textContent = "→ NL";
+      dlgDef.textContent  = "Geen vaste uitleg beschikbaar (MVP).";
     }
+    dlg.showModal();
+  });
 
-    function wrapWords(el){
-      const raw = el.textContent;
-      const parts = raw.split(/(\s+)/); // keep spaces
-      const html = parts.map(p => {
-        if (p.trim() === "") return p; // spaces
-        const key = normalizeKey(p);
-        // Every word becomes clickable
-        return `<span class="w" data-key="${encodeURIComponent(key)}" data-display="${encodeURIComponent(p)}">${p}</span>`;
-      }).join("");
-      el.innerHTML = html;
-    }
+  dictBtn.onclick = ()=> {
+    window.open(`https://en.wiktionary.org/wiki/${encodeURIComponent(lastWord)}`,"_blank");
+  };
+  closeBtn.onclick = ()=> dlg.close();
+</script>
 
-    // Make all posts clickable word-by-word
-    document.querySelectorAll(".post.clickable").forEach(wrapWords);
-
-    // Click handler (event delegation)
-    document.getElementById("feed").addEventListener("click", (e) => {
-      const w = e.target.closest(".w");
-      if (!w) return;
-
-      const key = decodeURIComponent(w.dataset.key || "");
-      const display = decodeURIComponent(w.dataset.display || "");
-
-      lastLookup = key;
-      lastLang = (w.closest(".post")?.dataset?.lang || "").toUpperCase();
-
-      const entry = dictionary[key];
-
-      dlgWord.textContent = display.replace(/\s+/g," ").trim();
-
-      if (entry) {
-        dlgLang.textContent = entry.lang;
-        dlgDef.textContent = entry.def;
-      } else {
-        dlgLang.textContent = `${lastLang || "—"} → NL`;
-        dlgDef.textContent = "Geen vaste uitleg beschikbaar (MVP). Open het woordenboek voor een snelle vertaling.";
-      }
-
-      dlg.showModal();
-    });
-
-    // Dictionary button: always works (gives a translation route)
-    dictBtn.addEventListener("click", () => {
-      const term = encodeURIComponent(lastLookup || "");
-      // Wiktionary is universal. For Dutch, it still gives meanings/translations.
-      const url = `https://en.wiktionary.org/wiki/${term}`;
-      window.open(url, "_blank");
-    });
-
-    closeBtn.addEventListener("click", () => dlg.close());
-
-    dlg.addEventListener("click", (e) => {
-      const rect = dlg.getBoundingClientRect();
-      const inDialog = rect.top <= e.clientY && e.clientY <= rect.bottom &&
-                       rect.left <= e.clientX && e.clientX <= rect.right;
-      if (!inDialog) dlg.close();
-    });
-  </script>
 </body>
 </html>
